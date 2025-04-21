@@ -27,6 +27,24 @@ country: {
  type: String,
 },
 
+category: {
+  type: String,
+  required: true, // optional: remove this if you want it to be optional
+  enum: [
+    "Trending",
+    "Rooms",
+    "Iconic Cities",
+    "Mountains",
+    "Castles",
+    "Amazing pools",
+    "Camping",
+    "Farms",
+    "Arctic",
+    "Domes",
+    "Boats"
+  ],
+},
+
 // Correct way to store reviews (as ObjectId references)
 reviews: [
  {

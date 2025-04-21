@@ -34,13 +34,12 @@ router
     .delete(isloggedin, isOwner, wrapasync(listincontroller.distroylisting));
           
 
-//edit route
+
 
 router.get("/:id/edit",
     isloggedin,
     isOwner,
      wrapasync(listincontroller.editlisting));
 
-// delete route
-router
+
 module.exports = router;
