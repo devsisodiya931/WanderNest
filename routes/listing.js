@@ -39,7 +39,7 @@ router
 router.get("/:id/edit",
     isloggedin,
     isOwner,
-     wrapasync(listincontroller.editlisting));
+     wrapasync(listincontroller.rendereditlisting));
 
 
 module.exports = router;
