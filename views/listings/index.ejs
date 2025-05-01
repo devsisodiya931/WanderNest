@@ -1,22 +1,40 @@
 <% layout("/layouts/boilerplate") %>
 
 <style>
-  .scrolling-wrapper {
+  .filters-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     overflow-x: auto;
+    gap: 1rem;
+    padding: 1rem 1rem 0.5rem;
+    border-bottom: 1px solid #ddd;
     white-space: nowrap;
+    flex-wrap: nowrap;
+  }
+
+  .filters-scroll {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filters-scroll::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .filters-scroll::-webkit-scrollbar-thumb {
+    background: #aaa;
+    border-radius: 10px;
   }
 
   .filter {
     text-align: center;
-    margin-right: 2rem;
     opacity: 0.7;
-    display: inline-block;
     min-width: 80px;
-  }
-
-  .filter:hover {
-    opacity: 1;
-    cursor: pointer;
+    flex-shrink: 0;
   }
 
   .filter.active {
@@ -24,42 +42,45 @@
     opacity: 1;
   }
 
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
   .filter p {
     font-size: 0.8rem;
+    margin-top: 0.3rem;
   }
 
-  .tax-info {
-    display: none;
-  }
-
-  .tax-toggle-container {
+  .tax-toggle {
+    flex-shrink: 0;
     border: 1px solid black;
     border-radius: 1rem;
-    height: 3.25rem;
-    flex-shrink: 0;
-    width: 20%;
-    min-width: 200px;
-    padding-left: 1rem;
+    padding: 0.5rem 1rem;
+    white-space: nowrap;
     display: flex;
     align-items: center;
+    height: 3.25rem;
   }
 
+  /* 👇 Responsive adjustment for small screens */
   @media (max-width: 768px) {
-    .tax-toggle-container {
-      width: 100%;
-      justify-content: center;
+    .filters-container {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .tax-toggle {
       margin-top: 1rem;
+      margin-left: 0;
+      align-self: flex-start;
     }
   }
 </style>
 
-<!-- Filters and tax toggle -->
-<div class="d-flex flex-column flex-md-row align-items-start justify-content-between border-bottom py-2 px-3">
-  <!-- Filter scroll -->
-  <div class="scrolling-wrapper d-flex flex-nowrap overflow-auto">
-    <% 
-      const activeCategory = typeof selectedCategory !== 'undefined' ? selectedCategory.toLowerCase() : '';
-    %>
+
+<div class="filters-container">
+  <div class="filters-scroll">
     <% const filters = [
       { key: 'Trending', icon: 'fa-fire' },
       { key: 'Rooms', icon: 'fa-bed' },
@@ -74,26 +95,28 @@
       { key: 'Boats', icon: 'fa-sailboat' }
     ]; %>
 
+    <% const activeCategory = selectedCategory?.toLowerCase(); %>
+
     <% for (let filter of filters) {
          const isActive = activeCategory === filter.key.toLowerCase();
     %>
       <a href="/listings?category=<%= encodeURIComponent(filter.key) %>" class="text-dark text-decoration-none">
         <div class="filter <%= isActive ? 'active' : '' %>">
-          <i class="fa-<%= filter.brand ? 'brands' : 'solid' %> <%= filter.icon %>"></i>
+          <i class="fa-<%= filter.brand ? 'brands' : 'solid' %> <%= filter.icon %> fa-lg"></i>
           <p><%= filter.key %></p>
         </div>
       </a>
     <% } %>
   </div>
 
-  <!-- Tax toggle -->
-  <div class="tax-toggle-container">
-    <div class="form-check-reverse form-switch">
-      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
+  <div class="tax-toggle">
+    <div class="form-check-reverse form-switch m-0">
+      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
       <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
     </div>
   </div>
 </div>
+
 
 <!-- Listings -->
 <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4 my-3">
@@ -110,7 +133,6 @@
         <% } %>
       </div>
     </div>
-    
   <% } else { %>
     <% for (let listing of allListings) { %>
       <a href="/listings/<%= listing._id %>" class="listing-link text-decoration-none text-dark">
