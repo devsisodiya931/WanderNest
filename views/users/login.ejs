@@ -1,24 +1,15 @@
 <% layout("/layouts/boilerplate") %>
 
 <style>
-/* Login Page Styling */
-body {
-  background: #f5f7fa;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  height: 100vh;
+/* Center only the login section */
+.login-wrapper {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* full screen height */
 }
 
-h3 {
-  text-align: center;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 1.5rem;
-}
-
-form {
+.login-card {
   background: #fff;
   padding: 2rem;
   border-radius: 12px;
@@ -27,22 +18,29 @@ form {
   width: 100%;
 }
 
-.form-label {
+.login-card h3 {
+  text-align: center;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.login-card .form-label {
   font-weight: 500;
   color: #555;
 }
 
-.form-control {
+.login-card .form-control {
   border-radius: 8px;
   padding: 0.65rem;
 }
 
-.form-control:focus {
+.login-card .form-control:focus {
   border-color: #28a745;
   box-shadow: 0 0 6px rgba(40, 167, 69, 0.3);
 }
 
-button[type="submit"] {
+.login-card button[type="submit"] {
   width: 100%;
   border-radius: 8px;
   padding: 0.7rem;
@@ -50,19 +48,21 @@ button[type="submit"] {
 }
 </style>
 
-<div class="container">
-  <h3>Login In</h3>
-  <form action="/login" method="POST" class="needs-validation" novalidate>
-    <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
-      <input class="form-control" type="text" name="username" placeholder="Enter your username" required>
-    </div>
+<div class="login-wrapper">
+  <div class="login-card">
+    <h3>Login In</h3>
+    <form action="/login" method="POST" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input class="form-control" type="text" name="username" placeholder="Enter your username" required>
+      </div>
 
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input class="form-control" type="password" name="password" placeholder="Enter your password" required>
-    </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input class="form-control" type="password" name="password" placeholder="Enter your password" required>
+      </div>
 
-    <button type="submit" class="btn btn-success">Login</button>
-  </form>
+      <button type="submit" class="btn btn-success">Login</button>
+    </form>
+  </div>
 </div>
